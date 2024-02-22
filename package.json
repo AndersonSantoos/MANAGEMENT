@@ -1,7 +1,7 @@
 {
   "name": "management---dev",
   "version": "1.0.0",
-  "description": "",
+  "description": "Projeto para fins de aprendizado em TYPESCRIPT",
   "main": "app.js",
   "scripts": {
     "start": "nodemon dist/app.js",
