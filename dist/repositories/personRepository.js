@@ -4,13 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePerson = exports.updatePerson = exports.getPersonById = exports.getAllPerson = exports.createPerson = void 0;
-const Person_1 = __importDefault(require("../models/Person"));
+const Person_model_1 = __importDefault(require("../models/Person.model"));
 async function createPerson(name, age, email) {
     try {
         if (!name || !age || !email) {
             throw new Error('Todos os campos devem ser preenchidos.');
         }
-        const person = await Person_1.default.create({ name, age, email });
+        const person = await Person_model_1.default.create({ name, age, email });
         console.log('Pessoa criada com sucesso.');
         return person;
     }
@@ -22,7 +22,7 @@ async function createPerson(name, age, email) {
 exports.createPerson = createPerson;
 async function getAllPerson() {
     try {
-        const persons = await Person_1.default.findAll();
+        const persons = await Person_model_1.default.findAll();
         console.log('Lista de pessoas obtida com sucesso.');
         return persons;
     }
@@ -34,7 +34,7 @@ async function getAllPerson() {
 exports.getAllPerson = getAllPerson;
 async function getPersonById(id) {
     try {
-        const person = await Person_1.default.findByPk(id);
+        const person = await Person_model_1.default.findByPk(id);
         console.log('Pessoa obtida com sucesso.');
         return person;
     }
@@ -46,7 +46,7 @@ async function getPersonById(id) {
 exports.getPersonById = getPersonById;
 async function updatePerson(registration, name, age, email) {
     try {
-        const person = await Person_1.default.findByPk(registration);
+        const person = await Person_model_1.default.findByPk(registration);
         if (!person) {
             throw new Error('Pessoa não encontrada.');
         }
@@ -62,7 +62,7 @@ async function updatePerson(registration, name, age, email) {
 exports.updatePerson = updatePerson;
 async function deletePerson(id) {
     try {
-        const person = await Person_1.default.findByPk(id);
+        const person = await Person_model_1.default.findByPk(id);
         if (!person) {
             throw new Error('Pessoa não encontrada');
         }

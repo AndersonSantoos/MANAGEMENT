@@ -1,58 +1,65 @@
-import { Request, Response } from 'express';
-import { createPerson, getAllPerson, getPersonById, updatePerson, deletePerson } from '../repositories/personRepository';
+import { Request, Response } from "express";
+import { createPerson, deletePerson, getAllPerson, getPersonById, updatePerson } from "../repositories/personRepository";
 
-async function createPersonController(req: Request, res: Response): Promise<void> {
-   const { name, age, email } = req.body;
-   try {
-    const person = await createPerson(name, age, email);
-    res.status(201).json(person);
-   } catch (error: any) {
-    res.status(400).send(error.message);
-    }
-}
+export const createPersonController = async (req: Request, res: Response): Promise<void> => {
+  const { name, age, email } = req.body;
+  try {
+    const createdPerson = await createPerson(name, age, email);
+    res.status(201).json(createdPerson);
+  } catch (error: any) {
+    console.error("Error creating person:", error.message);
+    res.status(500).send("Error creating person");
+  }
+};
 
-async function getAllPersonController(req: Request, res: Response): Promise<void> {
-    try {
-        const persons = await getAllPerson();
-        res.status(200).json(persons);
-    } catch (error: any) {
-        res.status(500).send(error.message);
-    }
-}
+export const getAllPersonController = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const persons = await getAllPerson();
+    res.status(200).json(persons);
+  } catch (error: any) {
+    console.error("Error getting all persons:", error.message);
+    res.status(500).send("Error getting all persons");
+  }
+};
 
-async function getPersonByIdController(req: Request, res: Response): Promise<void> {
-   const id = Number(req.params.id);
-   try {
+export const getPersonByIdController = async (req: Request, res: Response): Promise<void> => {
+  const id = parseInt(req.params.id);
+  try {
     const person = await getPersonById(id);
     if (!person) {
-        res.status(404).send('Pessoa não encontrada');
-    } else {
-        res.status(200).json(person);
+      res.status(404).send("Person not found");
+      return;
     }
-   } catch (error: any) {
-    res.status(500).send(error.message);
-   }
-}
+    res.status(200).json(person);
+  } catch (error: any) {
+    console.error("Error getting person by ID:", error.message);
+    res.status(500).send("Error getting person by ID");
+  }
+};
 
-async function updatePersonController(req: Request, res: Response): Promise<void> {
-    const id = Number(req.params.id);
-    const { name, age, email } = req.body;
-    try {
-        const updatedPerson = await updatePerson(id, name, age, email);
-        res.status(200).json(updatedPerson);
-    } catch (error: any) {
-        res.status(400).send(error.message);
+export const updatePersonController = async (req: Request, res: Response): Promise<void> => {
+  const id = parseInt(req.params.id);
+  const { name, age, email } = req.body;
+  try {
+    const updatedPerson = await updatePerson(id, name, age, email);
+    if (!updatedPerson) {
+      res.status(404).send("Person not found");
+      return;
     }
-}
+    res.status(200).json(updatedPerson);
+  } catch (error: any) {
+    console.error("Error updating person:", error.message);
+    res.status(500).send("Error updating person");
+  }
+};
 
-async function deletePersonController(req: Request, res: Response): Promise<void> {
-    const id = Number(req.params.id);
-    try {
-        await deletePerson(id);
-        res.status(200).send(`Pessoa com o id ${id} foi excluído com sucesso!`);
-    } catch (error: any) {
-        res.status(500).send(error.message);
-    }
-}
-
-export { createPersonController, getAllPersonController, getPersonByIdController, updatePersonController, deletePersonController}
+export const deletePersonController = async (req: Request, res: Response): Promise<void> => {
+  const id = parseInt(req.params.id);
+  try {
+    await deletePerson(id);
+    res.status(200).send(`Person with ID ${id} has been deleted successfully`);
+  } catch (error: any) {
+    console.error("Error deleting person:", error.message);
+    res.status(500).send("Error deleting person");
+  }
+};
