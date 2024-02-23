@@ -1,4 +1,4 @@
-import Person from '../models/Person';
+import Person from '../models/Person.model';
 
 async function createPerson(name: string, age: number, email: string): Promise<Person> {
    try {

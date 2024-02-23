@@ -10,7 +10,6 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/person', personRoutes);
-
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}`);
   try {
@@ -20,4 +19,6 @@ app.listen(port, async () => {
     console.error('Unable to sync models with database:', error);
   }
 });
+
+export default app; 
 

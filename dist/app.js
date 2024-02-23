@@ -23,3 +23,4 @@ app.listen(port, async () => {
         console.error('Unable to sync models with database:', error);
     }
 });
+exports.default = app;
